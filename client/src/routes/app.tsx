@@ -4,17 +4,19 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Header from "../components/Home/Header";
 import Footer from "../components/Home/Footer";
 import Shop from "../views/Shop";
-//import Product from "../views/Product";
+import ProductDetail from "../views/Product/productDetail";
 
 const App: React.FC = () => {
   return (
     <BrowserRouter>
-      <Header/>
-        <Routes>
-          <Route path="/" Component={Shop} />
-          {/* <Route exact path="/product/:id" component={Product} /> */}
-        </Routes>
-      <Footer/>
+      <div className="App">
+        <Header/>
+          <Routes>
+            <Route path="/" Component={Shop} />
+            <Route  path="/product/:id" Component={ProductDetail} />
+          </Routes>
+        <Footer/>
+      </div>
     </BrowserRouter>
   );
 };
