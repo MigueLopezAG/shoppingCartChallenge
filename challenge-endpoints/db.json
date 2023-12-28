@@ -1,0 +1,163 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "model": "button-down shirt",
+            "code": "BUDO",
+            "size": "L"
+        },
+        {
+            "id": 2,
+            "model": "polo shirt",
+            "code": "POSH",
+            "size": "S"
+        },
+        {
+            "id": 3,
+            "model": "polo shirt",
+            "code": "POSH",
+            "size": "M"
+        },
+        {
+            "id": 4,
+            "model": "hoodie",
+            "code": "HOOD",
+            "size": "S"
+        },
+        {
+            "id": 5,
+            "model": "hoodie",
+            "code": "HOOD",
+            "size": "M"
+        },
+        {
+            "id": 6,
+            "model": "button-down shirt",
+            "code": "BUDO",
+            "size": "S"
+        },
+        {
+            "id": 7,
+            "model": "t-shirt",
+            "code": "TSHI",
+            "size": "M"
+        },
+        {
+            "id": 8,
+            "model": "t-shirt",
+            "code": "TSHI",
+            "size": "L"
+        },
+        {
+            "id": 9,
+            "model": "polo shirt",
+            "code": "POSH",
+            "size": "L"
+        },
+        {
+            "id": 10,
+            "model": "hoodie",
+            "code": "HOOD",
+            "size": "L"
+        }
+    ],
+    "stock": [
+        {
+            "id": 1,
+            "product_id": 7,
+            "stock": 14
+        },
+        {
+            "id": 2,
+            "product_id": 4,
+            "stock": 15
+        },
+        {
+            "id": 3,
+            "product_id": 10,
+            "stock": 38
+        },
+        {
+            "id": 4,
+            "product_id": 3,
+            "stock": 38
+        },
+        {
+            "id": 5,
+            "product_id": 1,
+            "stock": 89
+        },
+        {
+            "id": 6,
+            "product_id": 2,
+            "stock": 22
+        },
+        {
+            "id": 7,
+            "product_id": 8,
+            "stock": 42
+        },
+        {
+            "id": 8,
+            "product_id": 9,
+            "stock": 0
+        },
+        {
+            "id": 10,
+            "product_id": 6,
+            "stock": 32
+        }
+    ],
+    "prices": [
+        {
+            "id": 1,
+            "product_id": 9,
+            "price": 86.82
+        },
+        {
+            "id": 2,
+            "product_id": 2,
+            "price": 90.8
+        },
+        {
+            "id": 3,
+            "product_id": 8,
+            "price": 19.36
+        },
+        {
+            "id": 4,
+            "product_id": 7,
+            "price": 93.27
+        },
+        {
+            "id": 5,
+            "product_id": 4,
+            "price": 50.46
+        },
+        {
+            "id": 6,
+            "product_id": 6,
+            "price": 60.47
+        },
+        {
+            "id": 7,
+            "product_id": 5,
+            "price": 44.33
+        },
+        {
+            "id": 8,
+            "product_id": 10,
+            "price": 53.65
+        },
+        {
+            "id": 9,
+            "product_id": 1,
+            "price": 43.17
+        },
+        {
+            "id": 10,
+            "product_id": 3,
+            "price": 98.0
+        }
+    ]
+}
