@@ -2,7 +2,8 @@ import { API } from "../api/product-api";
 import { Dispatch } from "redux";
 import PRODUCT_CONSTANTS from "./productConstants";
 import * as types from './productTypes';
-import { ProductModel } from "./productModel";
+import { ProductCatalogModel } from "./productModel";
+import { mergeProductsAndPrices, mergeProductsAndStock } from "./helper";
 
 const fetchProductCatalogRequest = (): types.IFetchProductCatalogBegin => {
     return {
@@ -26,15 +27,32 @@ const fetchProductCatalogSuccess = (data: any): types.IFetchProductCatalogSucces
 
 export const fetchProductCatalog = () => {
 
-    const productCatalog: Array<ProductModel> = [];
+    let productCatalog: Array<ProductCatalogModel> = [];
 
     return(dispatch: Dispatch) => {
         dispatch(fetchProductCatalogRequest());
         API.getProducts()
         .then((response: any) => {
             const products = response.data;
-            console.log("products", products)
-            //dispatch(fetchProductCatalogSuccess(response.data));
+            if(products.lengt !== 0){
+                API.getPrices().then((response: any) =>{
+                  const prices = response.data;
+                  if(prices.length !== 0){
+                    productCatalog = mergeProductsAndPrices(products, prices);
+                    API.getStock().then((response: any) =>{
+                        const stock = response.data;
+                        if(prices.length !== 0){
+                          productCatalog = mergeProductsAndStock(productCatalog, stock);
+                          dispatch(fetchProductCatalogSuccess(productCatalog))
+                        }
+                      }).catch((error:any) => {
+                          dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
+                      });
+                  }
+                }).catch((error:any) => {
+                    dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
+                });
+            }
         }).catch((error:any) => {
             dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
         });

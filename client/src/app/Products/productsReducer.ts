@@ -1,15 +1,15 @@
 import PRODUCT_CONSTANTS from './productConstants';
 import { ProductAction } from './productTypes'
-import { ProductModel } from './productModel';
+import { ProductCatalogModel } from './productModel';
 
 export interface ProductsReducerState {
-    productCatalog: ProductModel;
+    productCatalog: Array<ProductCatalogModel>;
     loading: boolean;
     error: any;
 }
 
 const initialState: ProductsReducerState = {
-    productCatalog: {} as ProductModel,
+    productCatalog: [],
     loading: false,
     error: undefined
 }
