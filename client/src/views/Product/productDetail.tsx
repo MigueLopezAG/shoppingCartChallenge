@@ -9,49 +9,49 @@ import { useSelector } from 'react-redux';
 import { findIdBySize, getIndexById } from '../../app/Products/helper';
 import { buildProductByIndex } from '../../app/Products/builders';
 import { addToCart } from '../../app/Cart/cartActions';
-import {Buffer} from 'buffer';
+import { Buffer } from 'buffer';
 import axios from 'axios';
 
 
 const ProductDetail: React.FC = () => {
-    
+
   const navigate = useNavigate();
   const params = useParams();
   const productId = (params as any)?.id;
 
-  const {productCatalog, currentProduct} = useSelector((state: any) => state.productCatalog);
-  const {cart} = useSelector((state: any) => state.cart);
-  
+  const { productCatalog, currentProduct } = useSelector((state: any) => state.productCatalog);
+  const { cart } = useSelector((state: any) => state.cart);
+
   const [sizeSelected, setSizeSelected] = useState<string>('');
   const [qty, setQty] = useState<number>(1);
   const [idIndex, setIdIndex] = useState(0);
   const [image, setImage] = useState('')
-  
+
   const dispatch = useAppDispatch();
 
-    useEffect(() => {
-      if(Object.values(productCatalog).length == 0){
-        navigate('/');
-      } else {
-        dispatch(saveActualProductComplete(productCatalog, productId));
-      }
-    }, [productCatalog])
+  useEffect(() => {
+    if (Object.values(productCatalog).length == 0) {
+      navigate('/');
+    } else {
+      dispatch(saveActualProductComplete(productCatalog, productId));
+    }
+  }, [productCatalog])
 
-    useEffect(() => {
-      if(Object.values(currentProduct).length !== 0)
-        setIdIndex(getIndexById(currentProduct, productId))
-    }, [currentProduct])
+  useEffect(() => {
+    if (Object.values(currentProduct).length !== 0)
+      setIdIndex(getIndexById(currentProduct, productId))
+  }, [currentProduct])
 
-    useEffect(() => {
-      if(Object.values(currentProduct).length !== 0)
-        setSizeSelected(currentProduct.size[idIndex])
-    }, [idIndex])
+  useEffect(() => {
+    if (Object.values(currentProduct).length !== 0)
+      setSizeSelected(currentProduct.size[idIndex])
+  }, [idIndex])
 
   const handleSizeChange = (size: string) => {
     setSizeSelected(size);
     const nextProduct = findIdBySize(currentProduct, size);
     setIdIndex(getIndexById(currentProduct, nextProduct))
-    navigate('/product/'+ nextProduct);
+    navigate('/product/' + nextProduct);
   };
 
   const handleQtyChange = (qty: number) => {
@@ -64,31 +64,57 @@ const ProductDetail: React.FC = () => {
   };
 
   const getImage = async () => {
-    axios.get(currentProduct.image,{responseType: "arraybuffer"})
-    .then((response) =>
-      setImage(Buffer.from(response.data, "binary").toString("base64"))
-    ).catch((err)=>{
-      console.log("ocurrio un error al cargar la imagen", err)
-    });
+    axios.get(currentProduct.image, { responseType: "arraybuffer" })
+      .then((response) =>
+        setImage(Buffer.from(response.data, "binary").toString("base64"))
+      ).catch((err) => {
+        console.log("ocurrio un error al cargar la imagen", err)
+      });
   }
   getImage();
 
   return (Object.values(currentProduct).length !== 0 ?
-    <div className="flex p-4 ">
-      <div className="w-2/3 pr-4 ">
-        <img src={`data:;base64,${image}`} alt={currentProduct.model} className="w-full" />
+    <section className="py-10 font-poppins">
+      <div className="max-w-6xl px-4 mx-auto">
+        <div className="flex flex-wrap mb-24 -mx-4">
+          <div className="w-full px-4 mb-8 md:w-1/2 md:mb-0">
+            <div className="sticky top-0 overflow-hidden ">
+              <div className="relative mb-6 lg:mb-10 lg:h-96">
+                <img className="object-contain w-full lg:h-full" src={`data:;base64,${image}`} alt={currentProduct.model}/>
+              </div>
+            </div>
+          </div>
+          <div className="w-full px-4 md:w-1/2">
+            <div className="lg:pl-20">
+              <div className="mb-6 ">
+                <h2 className="max-w-xl mt-6 mb-6 text-xl font-semibold leading-loose tracking-wide text-gray-700 md:text-2xl">
+                  {currentProduct.model}
+                </h2>
+                <p className="inline-block text-2xl font-semibold text-gray-700">
+                  <span>${' '}{currentProduct.price[idIndex].toFixed(2)}</span>
+                </p>
+              </div>
+              <div className="mb-6 ">
+                <SizeSelector
+                  sizes={currentProduct.size}
+                  sizeSelected={sizeSelected}
+                  onSizeChange={handleSizeChange}
+                />
+
+                <QtyControl
+                  qty={qty}
+                  max={currentProduct.stock[idIndex]}
+                  onQtyChange={handleQtyChange}
+                />
+                <AddCartButton onClick={handleAddCart} disabled={currentProduct.stock[idIndex] === 0} />
+              </div>
+              
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="w-1/3">
-        <h2 className="text-2xl font-semibold mb-2">{currentProduct.model}</h2>
-        <p className="text-gray-600 mb-2">{currentProduct.price[idIndex].toFixed(2)}</p>
-
-        <SizeSelector sizes={currentProduct.size} sizeSelected={sizeSelected} onSizeChange={handleSizeChange} />
-
-        <QtyControl qty={qty} max={currentProduct.stock[idIndex]} onQtyChange={handleQtyChange} />
-
-        <AddCartButton onClick={handleAddCart} disabled={currentProduct.stock[idIndex] == 0}/>
-      </div>
-    </div> : <></>
+    </section>
+    : <></>
   );
 };
 

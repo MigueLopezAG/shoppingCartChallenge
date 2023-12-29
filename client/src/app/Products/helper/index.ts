@@ -89,3 +89,11 @@ export function findIdBySize(completeProduct:CompleteProduct, size: string): num
   const idIndex = completeProduct.size.indexOf(size);
   return completeProduct.id[idIndex];
 }
+
+export function getStockById(products: ProductCatalogModel[], id: number): number {
+  const getProduct = findProductById(products, id);
+  if(Object(getProduct).length !== 0){
+    return getProduct.stock;
+  } 
+  return 0;
+}

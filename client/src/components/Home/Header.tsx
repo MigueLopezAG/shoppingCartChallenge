@@ -14,15 +14,23 @@ const Header: React.FC = () => {
   
   return (
     <div className="header-container">
-      <img src={''} alt="Logo" className="logo" />
-      <h1 className="title">Tienda en linea</h1>
-      <div 
-        className="flex flex-row cart-icon"
-        onClick={()=>{
-          navigate('/cart');
-        }}
+      <img 
+        src={''} 
+        alt="Logo" 
+        className="logo w-12 lg:w-20 cursor-pointer" 
+        onClick={()=>{navigate('/');}}
+      />
+      <h1 
+        className="title text-lg lg:text-2xl cursor-pointer" 
+        onClick={()=>{navigate('/');}}
       >
-        <FaShoppingCart />
+        Tienda en linea
+      </h1>
+      <div 
+        className="flex flex-row items-center cart-icon cursor-pointer"
+        onClick={()=>{navigate('/cart');}}
+      >
+        <FaShoppingCart className="text-xl lg:text-2xl"/>
         {cartQty !== 0 && <span className="ml-2">{cartQty}</span>}
       </div>
     </div>

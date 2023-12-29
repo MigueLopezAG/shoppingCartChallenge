@@ -1,4 +1,5 @@
-import { productToCart } from "../Products/productModel";
+import { findProductById } from "../Products/helper";
+import { ProductCatalogModel, productToCart } from "../Products/productModel";
 import CART_CONSTANTS from "./cartConstants";
 import * as types from './cartTypes';
 import { Dispatch } from "redux";
@@ -32,4 +33,20 @@ export const deleteById = (cart: Array<productToCart>, id: number) => {
     return (dispatch: Dispatch) => {
         dispatch(saveCart(deleteFromCart))
     }
+}
+
+export const updateQtyById = (cart: Array<productToCart>, productCatalog: ProductCatalogModel[], id: number, qty:number) => {
+    const findProductToUpdate = cart.findIndex((product) => product.id == id);
+    const getProduct = findProductById(productCatalog, id); 
+    if (findProductToUpdate !== -1 && qty <= getProduct.stock) {
+        const updateCart = [...cart];
+        updateCart[findProductToUpdate].qty = qty;
+        return (dispatch: Dispatch) =>{
+          dispatch(saveCart(updateCart))
+      }
+      } else {
+          return (dispatch: Dispatch) =>{
+              dispatch(saveCart([...cart]));
+          }
+      }
 }

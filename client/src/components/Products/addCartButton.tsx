@@ -8,13 +8,14 @@ interface AddCartButtonProps {
 
 const AddCartButton: React.FC<AddCartButtonProps> = ({ onClick, disabled }) => {
   return (
-    <button
-      className={"bg-black text-white px-4 py-2 rounded-md"}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      Agregar al Carrito
-    </button>
+    <div className="flex gap-4 mb-6">
+      <a 
+        onClick={()=>{!disabled && onClick()}}
+        //disabled={disabled} 
+        className={"w-full px-4 py-3 text-center text-white bg-gray-600 border border-transparent hover:border-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl"}
+      >
+      Agregar al Carrito</a>
+    </div>
   );
 };
 

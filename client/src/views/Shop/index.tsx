@@ -15,7 +15,7 @@ const Shop: FC = () => {
 
     return (
         <div className="container mx-auto p-4 content-center">
-            <h1 className="text-3xl font-semibold mb-4">Catálogo de Productos</h1>
+            <h1 className="text-3xl font-semibold mb-8 mt-2 text-center">Catálogo de Productos</h1>
             <ProductCatalog products={productCatalog} />
         </div>
     )

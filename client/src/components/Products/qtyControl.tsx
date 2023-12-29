@@ -8,8 +8,10 @@ interface QtyControlProps {
 }
 const QtyControl: React.FC<QtyControlProps> = ({ qty, onQtyChange, max }) => {
   return (
-    <div className="mb-2">
-      <label className="block text-sm font-medium text-gray-600">Cantidad:</label>
+    <div className="mb-6 mt-6" >
+      <p className="inline-block text-xl font-semibold text-gray-700 mb-2">
+        <span>Cantidad: </span>
+      </p>
       <div className="flex">
         <button
           className="px-2 py-1 border rounded-l-md bg-gray-200"

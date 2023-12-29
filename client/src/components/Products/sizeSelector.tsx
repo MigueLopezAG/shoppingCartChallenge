@@ -10,10 +10,12 @@ const SizeSelector: React.FC<SizeSelectorProps> = ({ sizes, sizeSelected, onSize
   
   return (
     <div className="mb-2">
-      <label className="block text-sm font-medium text-gray-600">Talla:</label>
+      <p className="inline-block text-xl font-semibold text-gray-700 mb-2">
+        <span>Talla: </span>
+      </p>
       <select
         value={sizeSelected}
-        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+        className="bg-gray-50 border mb-8 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
         onChange={(e) => onSizeChange(e.target.value)}
       >
         {sizes.map((size) => (
