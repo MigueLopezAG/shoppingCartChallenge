@@ -8,9 +8,11 @@ import { saveActualProductComplete } from '../../app/Products/productActions';
 import { useSelector } from 'react-redux';
 import { findIdBySize, getIndexById } from '../../app/Products/helper';
 import { buildProductByIndex } from '../../app/Products/builders';
-import { addToCart } from '../../app/Cart/cartActions';
+import { addToCart, clearAlerts } from '../../app/Cart/cartActions';
 import { Buffer } from 'buffer';
 import axios from 'axios';
+import CustomErrorAlert from '../../components/Alerts/CustomErrorAlert';
+import CustomSuccessAlert from '../../components/Alerts/CustomSuccessAlert';
 
 
 const ProductDetail: React.FC = () => {
@@ -20,8 +22,9 @@ const ProductDetail: React.FC = () => {
   const productId = (params as any)?.id;
 
   const { productCatalog, currentProduct } = useSelector((state: any) => state.productCatalog);
-  const { cart } = useSelector((state: any) => state.cart);
-
+  const { cart, errorMessage, successMessage } = useSelector((state: any) => state.cart);
+  console.log("successMessage", successMessage)
+  console.log("errorMessage", errorMessage)
   const [sizeSelected, setSizeSelected] = useState<string>('');
   const [qty, setQty] = useState<number>(1);
   const [idIndex, setIdIndex] = useState(0);
@@ -112,6 +115,8 @@ const ProductDetail: React.FC = () => {
             </div>
           </div>
         </div>
+        {errorMessage && <CustomErrorAlert AlertMessage={errorMessage}  onCancelAlert={()=>{dispatch(clearAlerts())}}/>}
+        {successMessage && <CustomSuccessAlert AlertMessage={successMessage} onCancelAlert={()=>{dispatch(clearAlerts())}}/>}
       </div>
     </section>
     : <></>

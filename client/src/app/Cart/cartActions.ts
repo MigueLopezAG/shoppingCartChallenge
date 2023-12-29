@@ -11,6 +11,14 @@ const saveCart = (data: any): types.IAddToCart => {
     }
 }
 
+const dispatchUpdateCart = (data: any): types.ICartUpdate => {
+    return {
+        type: CART_CONSTANTS.CART_UPDATE,
+        data
+    }
+}
+
+
 export const addToCart = (cart: Array<productToCart>, productToAdd:productToCart) => {
     const existProductInCartIndex = cart.findIndex((product) => product.id === productToAdd.id);
 
@@ -18,7 +26,8 @@ export const addToCart = (cart: Array<productToCart>, productToAdd:productToCart
       const updateCart = [...cart];
       updateCart[existProductInCartIndex].qty = productToAdd.qty;
       return (dispatch: Dispatch) =>{
-        dispatch(saveCart(updateCart))
+        dispatch(dispatchExistAlertProduct())
+        dispatch(dispatchUpdateCart(updateCart))
     }
     } else {
         return (dispatch: Dispatch) =>{
@@ -27,11 +36,18 @@ export const addToCart = (cart: Array<productToCart>, productToAdd:productToCart
     }
 }
 
+const deleteProduct = (data: any): types.IDeleteFromCart => {
+    return {
+        type: CART_CONSTANTS.DELETE_FROM_CART,
+        data
+    }
+}
+
 export const deleteById = (cart: Array<productToCart>, id: number) => {
     const deleteFromCart = cart.filter((product) => product.id !== id);
 
     return (dispatch: Dispatch) => {
-        dispatch(saveCart(deleteFromCart))
+        dispatch(deleteProduct(deleteFromCart))
     }
 }
 
@@ -49,4 +65,20 @@ export const updateQtyById = (cart: Array<productToCart>, productCatalog: Produc
               dispatch(saveCart([...cart]));
           }
       }
+}
+
+const dispatchClearAlert = (): types.IClearAlerts => {
+    return {
+        type: CART_CONSTANTS.CLEAR_ALERTS
+    }
+}
+
+export const clearAlerts = () => {
+    return(dispatch: Dispatch) => { dispatch(dispatchClearAlert()) }
+}
+
+const dispatchExistAlertProduct = (): types.IExistProductAlert => {
+    return {
+        type: CART_CONSTANTS.EXIST_PRODUCT_ALERT
+    }
 }
