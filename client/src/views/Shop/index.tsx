@@ -15,6 +15,7 @@ const Shop: FC = () => {
     
     useEffect(() => {
         dispatch(fetchProductCatalog());
+        dispatch(clearAlerts());
     }, [])
 
     return (

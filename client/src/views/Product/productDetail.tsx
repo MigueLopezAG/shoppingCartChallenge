@@ -33,6 +33,10 @@ const ProductDetail: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(clearAlerts())
+  }, [])
+
+  useEffect(() => {
     if (Object.values(productCatalog).length == 0) {
       navigate('/');
     } else {
