@@ -1,6 +1,7 @@
 export interface ProductCatalogModel {
     id: number;
     model: string;
+    image: string;
     code: string;
     size: string;
     stock: number;
@@ -28,6 +29,7 @@ export interface CompleteProduct {
     id: number[];
     model: string;
     code: string;
+    image: string;
     size: string[];
     stock: number[];
     price: number[];
@@ -36,6 +38,7 @@ export interface CompleteProduct {
 export interface productToCart {
     id: number;
     model: string;
+    image: string;
     code: string;
     size: string;
     qty: number;

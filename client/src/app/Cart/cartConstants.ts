@@ -1,7 +1,7 @@
 enum CART_CONSTANTS {
 
-    ADD_TO_CART = "ADD_TO_CART"
-    
+    ADD_TO_CART = "ADD_TO_CART",
+    DELETE_FROM_CART = "DELETE_FROM_CART"
 }
 
 export default CART_CONSTANTS;

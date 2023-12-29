@@ -2,6 +2,8 @@
 import { buildCompleteProduct } from "../builders";
 import { ProductModel, PriceModel, StockModel, CompleteProduct, ProductCatalogModel } from "../productModel";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export function mergeProductsAndPrices(products: ProductModel[], prices: PriceModel[]): ProductCatalogModel[] {
     const productosWithPrecios: ProductCatalogModel[] = [];
   
@@ -19,6 +21,7 @@ export function mergeProductsAndPrices(products: ProductModel[], prices: PriceMo
           model: product.model,
           code: product.code,
           size: product.size,
+          image: API_URL+'/images/'+product.model.replace(" ", "-")+'.jpg',
           price: correspondingPrice.price,
           stock: 0,
         };
@@ -44,6 +47,7 @@ export function mergeProductsAndStock(products: ProductCatalogModel[], stock: St
         const productWithStock: ProductCatalogModel = {
           id: product.id,
           model: product.model,
+          image: product.image,
           code: product.code,
           size: product.size,
           stock: correspondingStock.stock,

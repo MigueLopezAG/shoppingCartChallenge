@@ -25,3 +25,11 @@ export const addToCart = (cart: Array<productToCart>, productToAdd:productToCart
         }
     }
 }
+
+export const deleteById = (cart: Array<productToCart>, id: number) => {
+    const deleteFromCart = cart.filter((product) => product.id !== id);
+
+    return (dispatch: Dispatch) => {
+        dispatch(saveCart(deleteFromCart))
+    }
+}

@@ -2,14 +2,13 @@ import React, {FC, useEffect} from 'react';
 import { useAppDispatch } from '../../app/hooks';
 import { fetchProductCatalog } from '../../app/Products/productActions';
 import { useSelector } from 'react-redux';
-import { ProductsReducerState } from '../../app/Products/productsReducer';
 import ProductCatalog from '../../components/Products/ProductCatalog';
 
 const Shop: FC = () => {
     
     const {productCatalog} = useSelector((state: any) => state.productCatalog);
     const dispatch = useAppDispatch();
-
+    
     useEffect(() => {
         dispatch(fetchProductCatalog());
     }, [])

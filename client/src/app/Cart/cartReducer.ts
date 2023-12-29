@@ -4,12 +4,10 @@ import { ProductCatalogModel} from '../Products/productModel';
 
 export interface CartReducerState {
     cart: Array<ProductCatalogModel>;
-    cartQty: number
 }
 
 const initialState: CartReducerState = {
-    cart: [],
-    cartQty: 0
+    cart: []
 }
 
 export const cartReducer = (state = initialState, action: CartAction) => {
@@ -17,8 +15,7 @@ export const cartReducer = (state = initialState, action: CartAction) => {
         case CART_CONSTANTS.ADD_TO_CART:
             return {
                 ...state,
-                cart: action.data,
-                cartQty: action.data.length
+                cart: action.data
             };
 
         default:

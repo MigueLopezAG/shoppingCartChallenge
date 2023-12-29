@@ -34,25 +34,19 @@ export const fetchProductCatalog = () => {
         API.getProducts()
         .then((response: any) => {
             const products = response.data;
-            if(products.lengt !== 0){
-                API.getPrices().then((response: any) =>{
-                  const prices = response.data;
-                  if(prices.length !== 0){
-                    productCatalog = mergeProductsAndPrices(products, prices);
-                    API.getStock().then((response: any) =>{
-                        const stock = response.data;
-                        if(prices.length !== 0){
-                          productCatalog = mergeProductsAndStock(productCatalog, stock);
-                          dispatch(fetchProductCatalogSuccess(productCatalog))
-                        }
-                      }).catch((error:any) => {
-                          dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
-                      });
-                  }
+            API.getPrices().then((response: any) =>{
+                 const prices = response.data;
+                productCatalog = mergeProductsAndPrices(products, prices);
+                API.getStock().then((response: any) =>{
+                    const stock = response.data;
+                    productCatalog = mergeProductsAndStock(productCatalog, stock);
+                    dispatch(fetchProductCatalogSuccess(productCatalog))
                 }).catch((error:any) => {
                     dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
                 });
-            }
+            }).catch((error:any) => {
+                dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
+            });
         }).catch((error:any) => {
             dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
         });

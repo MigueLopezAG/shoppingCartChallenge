@@ -9,36 +9,43 @@ import { useSelector } from 'react-redux';
 import { findIdBySize, getIndexById } from '../../app/Products/helper';
 import { buildProductByIndex } from '../../app/Products/builders';
 import { addToCart } from '../../app/Cart/cartActions';
+import {Buffer} from 'buffer';
+import axios from 'axios';
 
 
 const ProductDetail: React.FC = () => {
     
-    
   const navigate = useNavigate();
   const params = useParams();
   const productId = (params as any)?.id;
+
   const {productCatalog, currentProduct} = useSelector((state: any) => state.productCatalog);
+  const {cart} = useSelector((state: any) => state.cart);
   
-  const {cart, cartQty} = useSelector((state: any) => state.cart);
   const [sizeSelected, setSizeSelected] = useState<string>('');
   const [qty, setQty] = useState<number>(1);
-  const [idIndex, setIdIndex] = useState(0)
+  const [idIndex, setIdIndex] = useState(0);
+  const [image, setImage] = useState('')
   
   const dispatch = useAppDispatch();
 
     useEffect(() => {
+      if(Object.values(productCatalog).length == 0){
+        navigate('/');
+      } else {
         dispatch(saveActualProductComplete(productCatalog, productId));
+      }
     }, [productCatalog])
 
     useEffect(() => {
+      if(Object.values(currentProduct).length !== 0)
         setIdIndex(getIndexById(currentProduct, productId))
     }, [currentProduct])
 
     useEffect(() => {
+      if(Object.values(currentProduct).length !== 0)
         setSizeSelected(currentProduct.size[idIndex])
     }, [idIndex])
-    
-    
 
   const handleSizeChange = (size: string) => {
     setSizeSelected(size);
@@ -52,15 +59,24 @@ const ProductDetail: React.FC = () => {
   };
 
   const handleAddCart = () => {
-
     const productToCart = buildProductByIndex(currentProduct, idIndex, qty, sizeSelected)
     dispatch(addToCart(cart, productToCart));
   };
 
-  return (
+  const getImage = async () => {
+    axios.get(currentProduct.image,{responseType: "arraybuffer"})
+    .then((response) =>
+      setImage(Buffer.from(response.data, "binary").toString("base64"))
+    ).catch((err)=>{
+      console.log("ocurrio un error al cargar la imagen", err)
+    });
+  }
+  getImage();
+
+  return (Object.values(currentProduct).length !== 0 ?
     <div className="flex p-4 ">
       <div className="w-2/3 pr-4 ">
-        <img src="url_imagen_producto" alt={currentProduct.model} className="w-full" />
+        <img src={`data:;base64,${image}`} alt={currentProduct.model} className="w-full" />
       </div>
       <div className="w-1/3">
         <h2 className="text-2xl font-semibold mb-2">{currentProduct.model}</h2>
@@ -72,7 +88,7 @@ const ProductDetail: React.FC = () => {
 
         <AddCartButton onClick={handleAddCart} disabled={currentProduct.stock[idIndex] == 0}/>
       </div>
-    </div>
+    </div> : <></>
   );
 };
 
