@@ -1,5 +1,6 @@
 
-import { ProductModel, PriceModel, StockModel, ProductCatalogModel } from "../productModel";
+import { buildCompleteProduct } from "../builders";
+import { ProductModel, PriceModel, StockModel, CompleteProduct, ProductCatalogModel } from "../productModel";
 
 export function mergeProductsAndPrices(products: ProductModel[], prices: PriceModel[]): ProductCatalogModel[] {
     const productosWithPrecios: ProductCatalogModel[] = [];
@@ -55,27 +56,32 @@ export function mergeProductsAndStock(products: ProductCatalogModel[], stock: St
     return productsWithStock;
 }
 
-// export function getProductsBySize(products: ProductModel[]): ProductCatalogModel[] {
-//     const unicProducts: ProductCatalogModel[] = [];
-  
-//     products.forEach((product) => {
-//       const exist = unicProducts.find((p) => p.code === product.code);
-//         console.log("unicProducts", unicProducts)
-//       if (exist) {
-//         if (!exist.size.includes(product.size)) {
-//             exist.size.push(product.size);
-//         }
-//       } else {
-//         const nuevoProducto: ProductCatalogModel = {
-//           id: product.id,
-//           model: product.model,
-//           code: product.code,
-//           size: [product.size],
-//           stock: 0,
-//           price: 0
-//         };
-//         unicProducts.push(nuevoProducto);
-//       }
-//     });
-//     return unicProducts;
-//   }
+export function getCompleteProduct(products: ProductCatalogModel[], id: number): CompleteProduct {
+    let productComplete: CompleteProduct = {} as CompleteProduct;
+    const currentProduct = findProductById(products, id);
+    productComplete = buildCompleteProduct(currentProduct);
+    products.forEach((product) => {
+      //if (product.id !== id) {  
+        if(product.code === currentProduct.code){
+          productComplete.id.push(product.id);
+          productComplete.size.push(product.size);
+          productComplete.price.push(product.price);
+          productComplete.stock.push(product.stock)
+        }
+      //}
+    });
+    return productComplete;
+}
+
+export function findProductById(products: ProductCatalogModel[], id: number): ProductCatalogModel {
+  return products.filter((product) => product.id == id).length !== 0 ? products.filter((product) => product.id == id)[0] : {} as ProductCatalogModel
+}
+
+export function getIndexById(completeProduct:CompleteProduct, id: number): number {
+  return completeProduct.id.indexOf(Number(id))
+}  
+
+export function findIdBySize(completeProduct:CompleteProduct, size: string): number{
+  const idIndex = completeProduct.size.indexOf(size);
+  return completeProduct.id[idIndex];
+}

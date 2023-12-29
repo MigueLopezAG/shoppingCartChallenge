@@ -3,7 +3,7 @@ import { Dispatch } from "redux";
 import PRODUCT_CONSTANTS from "./productConstants";
 import * as types from './productTypes';
 import { ProductCatalogModel } from "./productModel";
-import { mergeProductsAndPrices, mergeProductsAndStock } from "./helper";
+import { mergeProductsAndPrices, mergeProductsAndStock, getCompleteProduct } from "./helper";
 
 const fetchProductCatalogRequest = (): types.IFetchProductCatalogBegin => {
     return {
@@ -56,5 +56,18 @@ export const fetchProductCatalog = () => {
         }).catch((error:any) => {
             dispatch(fetchProductCatalogError(error.response|| 'Ocurrio un error inesperado'));
         });
+    }
+}
+
+const saveCurrentProduct = (data: any): types.ISaveCurrentProduct => {
+    return {
+        type: PRODUCT_CONSTANTS.SAVE_CURRENT_PRODUCT,
+        data
+    }
+}
+
+export const saveActualProductComplete = (productCatalog:Array<ProductCatalogModel> ,id: number) => {
+    return(dispatch: Dispatch) =>{
+        dispatch(saveCurrentProduct(getCompleteProduct(productCatalog, id)))
     }
 }

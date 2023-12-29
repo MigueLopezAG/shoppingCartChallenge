@@ -1,17 +1,19 @@
 import PRODUCT_CONSTANTS from './productConstants';
 import { ProductAction } from './productTypes'
-import { ProductCatalogModel } from './productModel';
+import { ProductCatalogModel, CompleteProduct } from './productModel';
 
 export interface ProductsReducerState {
     productCatalog: Array<ProductCatalogModel>;
     loading: boolean;
     error: any;
+    currentProduct: CompleteProduct;
 }
 
 const initialState: ProductsReducerState = {
     productCatalog: [],
+    currentProduct: {} as CompleteProduct,
     loading: false,
-    error: undefined
+    error: undefined,
 }
 
 export const productReducer = (state = initialState, action: ProductAction) => {
@@ -35,6 +37,12 @@ export const productReducer = (state = initialState, action: ProductAction) => {
                 loading: false,
                 error: action.error
             };
+
+        case PRODUCT_CONSTANTS.SAVE_CURRENT_PRODUCT:
+            return{
+                ...state,
+                currentProduct: action.data
+            }
 
         default:
             return state;

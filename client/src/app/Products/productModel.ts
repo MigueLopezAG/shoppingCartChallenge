@@ -24,3 +24,21 @@ export interface PriceModel {
     product_id: number;
     price: number;
 }
+export interface CompleteProduct {
+    id: number[];
+    model: string;
+    code: string;
+    size: string[];
+    stock: number[];
+    price: number[];
+}
+
+export interface productToCart {
+    id: number;
+    model: string;
+    code: string;
+    size: string;
+    qty: number;
+    unitPrice: number;
+    price: number;
+}
